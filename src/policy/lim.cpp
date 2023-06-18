@@ -78,7 +78,7 @@ Move two::get_move(State *state, int depth)
 
     if (!state->player)
     {
-        max = -100000;
+        max = -1000000;
         for (Move i : actions)
         {
 
@@ -94,7 +94,7 @@ Move two::get_move(State *state, int depth)
     }
     else
     {
-        max = 100000;
+        max = 1000000;
         for (Move i : actions)
         {
 
