@@ -84,7 +84,7 @@ Move playerColor(int player, State *state, int depth)
         for (auto action : actions)
         {
             State *nextState = state->next_state(action);
-            double temp = minimax_alpha_beta(nextState, 2, 0, -1046, 1046, player);
+            double temp = minimax_alpha_beta(nextState, depth, 0, -1046, 1046, player);
             std::cout << temp << std::endl;
             if (temp > now)
             {
@@ -114,7 +114,7 @@ Move playerColor(int player, State *state, int depth)
         for (auto action : actions)
         {
             State *nextState = state->next_state(action);
-            double temp = minimax_alpha_beta(nextState, 2, 1, -1046, 1046, player);
+            double temp = minimax_alpha_beta(nextState, depth, 1, -1046, 1046, player);
             std::cout << temp << std::endl;
             if (temp < now)
             {

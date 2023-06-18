@@ -25,12 +25,14 @@ int State::evaluate()
       if (piece != 0)
       {
         whiteScore += pieceValue[piece];
+        whiteScore += board.whiteValue[piece][i][j];
       }
 
       piece = this->board.board[1][i][j];
       if (piece != 0)
       {
         blackScore += pieceValue[piece];
+        blackScore += board.blackValue[piece][i][j];
       }
     }
   }
