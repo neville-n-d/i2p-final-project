@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <vector>
 #include <utility>
+#include <list>
 
 #include "../config.hpp"
 
@@ -54,6 +55,7 @@ public:
   State(int player) : player(player){};
   State(Board board) : board(board){};
   State(Board board, int player) : board(board), player(player){};
+  std::list<State> childState;
 
   int evaluate();
   State *next_state(Move move);

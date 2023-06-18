@@ -1,9 +1,10 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <climits>
 #include "../state/state.hpp"
 #include "./minimax.hpp"
-
+int max = 2;
 /**
  * @brief Randomly get a legal action
  *
@@ -11,38 +12,135 @@
  * @param depth You may need this for other policy
  * @return Move
  */
-Move Minimax::get_move(State *state, int depth)
+double minimax_alpha_beta(State *root, int depth, bool state, double alpha, double beta, int player)
+{
+
+    // cout << "==========" << " DEPTH LEVEL " << depth << " ==========" << endl;
+
+    if (depth <= 0)
+    {
+        // std::cout << "swc " << root->evaluate() << "dwdw";
+        return root->evaluate();
+    }
+
+    // MAXIMIZING
+    else if (state)
+    {
+        if (!root->legal_actions.size())
+            root->get_legal_actions();
+        auto actions = root->legal_actions;
+        for (auto action : actions)
+        {
+            State *nextState = root->next_state(action);
+            double val = minimax_alpha_beta(nextState, depth - 1, 0, alpha, beta, player);
+            std::cout << "val = " << val << " " << std::endl;
+            if (val > alpha)
+            {
+                alpha = val;
+            }
+            if (alpha >= beta)
+            {
+                break;
+            }
+        }
+        std::cout << "max val = " << alpha << " " << std::endl;
+        return alpha;
+    }
+    // MINIMIZING
+    else
+    {
+        if (!root->legal_actions.size())
+            root->get_legal_actions();
+        auto actions = root->legal_actions;
+        for (auto action : actions)
+        {
+            State *nextState = root->next_state(action);
+            double val = minimax_alpha_beta(nextState, depth - 1, 1, alpha, beta, player);
+            std::cout << "val = " << val << " " << std::endl;
+            if (val < beta)
+            {
+                beta = val;
+            }
+            if (alpha >= beta)
+            {
+                break;
+            }
+        }
+        std::cout << "min val = " << beta << " " << std::endl;
+        return beta;
+    }
+}
+Move playerColor(int player, State *state, int depth)
 {
     if (!state->legal_actions.size())
         state->get_legal_actions();
 
-    int now = -1100;
     int same = 0;
     Move retMove;
     auto actions = state->legal_actions;
-    for (auto action : actions)
+    if (player == 0)
     {
-        State *nextState = state->next_state(action);
-        int temp = nextState->evaluate();
-        if (temp > now)
+        double now = -1046;
+        for (auto action : actions)
         {
-            same++;
-            now = temp;
-            retMove = action;
+            State *nextState = state->next_state(action);
+            double temp = minimax_alpha_beta(nextState, 2, 0, -1046, 1046, player);
+            std::cout << temp << std::endl;
+            if (temp > now)
+            {
+                same++;
+                now = temp;
+                retMove = action;
+            }
+            else if (temp == now)
+            {
+                same++;
+            }
         }
-        else if (temp == now)
+        if (same >= actions.size())
         {
-            same++;
+            int k = depth;
+            for (int i = 0; i < depth; i++)
+            {
+                k = rand() / k;
+            }
+            retMove = actions[(rand() + depth) % actions.size()];
         }
+        return retMove;
     }
-    if (same >= actions.size())
+    else
     {
-        int k = depth;
-        for (int i = 0; i < depth; i++)
+        double now = 1046;
+        for (auto action : actions)
         {
-            k = rand() / k;
+            State *nextState = state->next_state(action);
+            double temp = minimax_alpha_beta(nextState, 2, 1, -1046, 1046, player);
+            std::cout << temp << std::endl;
+            if (temp < now)
+            {
+                same++;
+                now = temp;
+                retMove = action;
+            }
+            else if (temp == now)
+            {
+                same++;
+            }
         }
-        retMove = actions[(rand() + depth) % actions.size()];
+        if (same >= actions.size())
+        {
+            int k = depth;
+            for (int i = 0; i < depth; i++)
+            {
+                k = rand() / k;
+            }
+            retMove = actions[(rand() + depth) % actions.size()];
+        }
+        return retMove;
     }
-    return retMove;
+}
+Move Minimax::get_move(State *state, int depth)
+{
+    int player = state->player;
+    return playerColor(player, state, depth);
 }

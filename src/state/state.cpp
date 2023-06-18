@@ -34,17 +34,7 @@ int State::evaluate()
       }
     }
   }
-
-  if (this->player == 1)
-  {
-    std::cout << this->player << whiteScore << " " << blackScore << "\n";
-    return whiteScore - blackScore;
-  }
-  else
-  {
-    std::cout << this->player << blackScore << " " << whiteScore << "\n";
-    return blackScore - whiteScore;
-  }
+  return whiteScore - blackScore;
 }
 
 /**
