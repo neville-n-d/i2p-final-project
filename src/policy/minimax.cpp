@@ -33,7 +33,7 @@ double minimax_alpha_beta(State *root, int depth, bool state, double alpha, doub
         {
             State *nextState = root->next_state(action);
             double val = minimax_alpha_beta(nextState, depth - 1, 0, alpha, beta, player);
-            std::cout << "val = " << val << " " << std::endl;
+            // std::cout << "val = " << val << " " << std::endl;
             if (val > alpha)
             {
                 alpha = val;
@@ -43,7 +43,7 @@ double minimax_alpha_beta(State *root, int depth, bool state, double alpha, doub
                 break;
             }
         }
-        std::cout << "max val = " << alpha << " " << std::endl;
+        // std::cout << "max val = " << alpha << " " << std::endl;
         return alpha;
     }
     // MINIMIZING
@@ -56,7 +56,7 @@ double minimax_alpha_beta(State *root, int depth, bool state, double alpha, doub
         {
             State *nextState = root->next_state(action);
             double val = minimax_alpha_beta(nextState, depth - 1, 1, alpha, beta, player);
-            std::cout << "val = " << val << " " << std::endl;
+            // std::cout << "val = " << val << " " << std::endl;
             if (val < beta)
             {
                 beta = val;
@@ -66,7 +66,7 @@ double minimax_alpha_beta(State *root, int depth, bool state, double alpha, doub
                 break;
             }
         }
-        std::cout << "min val = " << beta << " " << std::endl;
+        // std::cout << "min val = " << beta << " " << std::endl;
         return beta;
     }
 }
@@ -85,7 +85,7 @@ Move playerColor(int player, State *state, int depth)
         {
             State *nextState = state->next_state(action);
             double temp = minimax_alpha_beta(nextState, depth, 0, -1046, 1046, player);
-            std::cout << temp << std::endl;
+            // std::cout << temp << std::endl;
             if (temp > now)
             {
                 same++;
