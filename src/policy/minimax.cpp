@@ -115,7 +115,7 @@ Move playerColor(int player, State *state, int depth)
         {
             State *nextState = state->next_state(action);
             double temp = minimax_alpha_beta(nextState, depth, 1, -1046, 1046, player);
-            std::cout << temp << std::endl;
+            // std::cout << temp << std::endl;
             if (temp < now)
             {
                 same++;
