@@ -47,7 +47,7 @@ void write_valid_spot(std::ofstream &fout)
     while (true)
     {
         // Choose a random spot.
-        auto move = two::get_move(root, 4);
+        auto move = two::get_move(root, 6);
         fout << move.first.first << " " << move.first.second << " "
              << move.second.first << " " << move.second.second << std::endl;
 

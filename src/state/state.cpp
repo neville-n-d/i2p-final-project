@@ -10,12 +10,12 @@
  *
  * @return int
  */
-int State::evaluate()
+double State::evaluate()
 {
-  int pieceValue[] = {0, 1, 6, 7, 8, 20, 1000}; // Piece values: {None, Pawn, Rook, Knight, Bishop, Queen}
+  double pieceValue[] = {0, 2, 6, 7, 8, 20, 1000}; // Piece values: {None, Pawn, Rook, Knight, Bishop, Queen}
 
-  int whiteScore = 0;
-  int blackScore = 0;
+  double whiteScore = 0;
+  double blackScore = 0;
 
   for (int i = 0; i < BOARD_H; i++)
   {

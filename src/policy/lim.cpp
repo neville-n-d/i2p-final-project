@@ -12,7 +12,7 @@
  * @return Move
  */
 
-int minimax(State *state, int depth, bool mm)
+int minimax(State *state, int depth, bool mm, int alpha, int beta)
 {
 
     if (!state->legal_actions.size())
@@ -26,36 +26,43 @@ int minimax(State *state, int depth, bool mm)
     auto actions = state->legal_actions;
 
     State *tmp;
-    int val, ret;
+    int val;
 
     if (mm)
     {
-        ret = -1000000;
         for (auto i : actions)
         {
             tmp = state->next_state(i);
-            val = minimax(tmp, depth - 1, false);
-            if (val > ret)
+            val = minimax(tmp, depth - 1, false, alpha, beta);
+            if (val > alpha)
             {
-                ret = val;
+                alpha = val;
+            }
+            if (alpha >= beta)
+            {
+                break;
             }
         }
+        return alpha;
     }
     else
     {
-        ret = 1000000;
         for (auto i : actions)
         {
             tmp = state->next_state(i);
-            val = minimax(tmp, depth - 1, true);
-            if (val < ret)
+            val = minimax(tmp, depth - 1, true, alpha, beta);
+            if (val < beta)
             {
-                ret = val;
+                beta = val;
+            }
+            if (alpha >= beta)
+            {
+                break;
             }
         }
-    }
 
-    return ret;
+        return beta;
+    }
 }
 
 Move two::get_move(State *state, int depth)
@@ -64,46 +71,52 @@ Move two::get_move(State *state, int depth)
         state->get_legal_actions();
 
     auto actions = state->legal_actions;
-
-    int k = depth;
-    for (int i = 0; i < depth; i++)
-    {
-        k = rand() / k;
-    }
-
     State *tmp;
     Move ret; //= actions[k%actions.size()]; // in case all the value is the same(not yet minimax / alpha prune)
 
     int max;
+    int alpha, beta;
+    alpha = -1000000;
+    beta = 1000000;
 
     if (!state->player)
     {
-        max = -1000000;
+        max = -10000;
         for (Move i : actions)
         {
 
             tmp = state->next_state(i);
-            int val = minimax(tmp, depth - 1, false);
-
+            int val = minimax(tmp, depth - 1, false, alpha, beta);
             if (val > max)
             {
                 max = val;
+                ret = i;
+            }
+            if (alpha > val)
+            {
+                alpha = val;
                 ret = i;
             }
         }
     }
     else
     {
-        max = 1000000;
+        max = 10000;
         for (Move i : actions)
         {
 
             tmp = state->next_state(i);
-            int val = minimax(tmp, depth - 1, true);
+            int val = minimax(tmp, depth - 1, true, alpha, beta);
 
             if (val < max)
             {
                 max = val;
+                ret = i;
+            }
+
+            if (beta < val)
+            {
+                beta = val;
                 ret = i;
             }
         }

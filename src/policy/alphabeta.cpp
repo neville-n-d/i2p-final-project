@@ -11,12 +11,13 @@
  * @param depth You may need this for other policy
  * @return Move
  */
-double alpha_beta(State *root, int depth, bool state, double alpha, double beta, int player)
+double alpha_beta(State *root, int depth, bool state, double alpha, double beta)
 {
 
     // cout << "==========" << " DEPTH LEVEL " << depth << " ==========" << endl;
-
-    if (depth <= 0)
+    if (!root->legal_actions.size())
+        root->get_legal_actions();
+    if (depth <= 0 || !root->legal_actions.size())
     {
         // std::cout << "swc " << root->evaluate() << "dwdw";
         return root->evaluate();
@@ -25,13 +26,11 @@ double alpha_beta(State *root, int depth, bool state, double alpha, double beta,
     // MAXIMIZING
     else if (state)
     {
-        if (!root->legal_actions.size())
-            root->get_legal_actions();
         auto actions = root->legal_actions;
         for (auto action : actions)
         {
             State *nextState = root->next_state(action);
-            double val = alpha_beta(nextState, depth - 1, 0, alpha, beta, player);
+            double val = alpha_beta(nextState, depth - 1, 0, alpha, beta);
             // std::cout << "val = " << val << " " << std::endl;
             if (val > alpha)
             {
@@ -48,13 +47,11 @@ double alpha_beta(State *root, int depth, bool state, double alpha, double beta,
     // MINIMIZING
     else
     {
-        if (!root->legal_actions.size())
-            root->get_legal_actions();
         auto actions = root->legal_actions;
         for (auto action : actions)
         {
             State *nextState = root->next_state(action);
-            double val = alpha_beta(nextState, depth - 1, 1, alpha, beta, player);
+            double val = alpha_beta(nextState, depth - 1, 1, alpha, beta);
             // std::cout << "val = " << val << " " << std::endl;
             if (val < beta)
             {
@@ -73,8 +70,8 @@ Move playerColor(int player, State *state, int depth)
 {
     if (!state->legal_actions.size())
         state->get_legal_actions();
-
-    int same = 0;
+    double alpha = -1046;
+    double beta = 1046;
     Move retMove;
     auto actions = state->legal_actions;
     if (player == 0)
@@ -83,27 +80,13 @@ Move playerColor(int player, State *state, int depth)
         for (auto action : actions)
         {
             State *nextState = state->next_state(action);
-            double temp = alpha_beta(nextState, depth, 0, -1046, 1046, player);
+            double temp = alpha_beta(nextState, depth - 1, false, alpha, beta);
             // std::cout << temp << std::endl;
             if (temp > now)
             {
-                same++;
                 now = temp;
                 retMove = action;
             }
-            else if (temp == now)
-            {
-                same++;
-            }
-        }
-        if (same >= actions.size())
-        {
-            int k = depth;
-            for (int i = 0; i < depth; i++)
-            {
-                k = rand() / k;
-            }
-            retMove = actions[(rand() + depth) % actions.size()];
         }
         return retMove;
     }
@@ -113,27 +96,13 @@ Move playerColor(int player, State *state, int depth)
         for (auto action : actions)
         {
             State *nextState = state->next_state(action);
-            double temp = alpha_beta(nextState, depth, 1, -1046, 1046, player);
+            double temp = alpha_beta(nextState, depth - 1, true, alpha, beta);
             // std::cout << temp << std::endl;
             if (temp < now)
             {
-                same++;
                 now = temp;
                 retMove = action;
             }
-            else if (temp == now)
-            {
-                same++;
-            }
-        }
-        if (same >= actions.size())
-        {
-            int k = depth;
-            for (int i = 0; i < depth; i++)
-            {
-                k = rand() / k;
-            }
-            retMove = actions[(rand() + depth) % actions.size()];
         }
         return retMove;
     }
