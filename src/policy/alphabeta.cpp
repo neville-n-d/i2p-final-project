@@ -84,8 +84,14 @@ Move playerColor(int player, State *state, int depth)
             // std::cout << temp << std::endl;
             if (temp > now)
             {
+                alpha = temp;
                 now = temp;
                 retMove = action;
+            }
+            if (alpha >= beta)
+            {
+
+                break;
             }
         }
         return retMove;
@@ -100,8 +106,13 @@ Move playerColor(int player, State *state, int depth)
             // std::cout << temp << std::endl;
             if (temp < now)
             {
+                beta = temp;
                 now = temp;
                 retMove = action;
+            }
+            if (alpha >= beta)
+            {
+                break;
             }
         }
         return retMove;

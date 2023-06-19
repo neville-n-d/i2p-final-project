@@ -12,7 +12,7 @@
  */
 double State::evaluate()
 {
-  double pieceValue[] = {0, 2, 6, 7, 8, 20, 1000}; // Piece values: {None, Pawn, Rook, Knight, Bishop, Queen}
+  double pieceValue[] = {0, 2, 6, 7, 8, 20, 130}; // Piece values: {None, Pawn, Rook, Knight, Bishop, Queen}
 
   double whiteScore = 0;
   double blackScore = 0;
@@ -25,14 +25,14 @@ double State::evaluate()
       if (piece != 0)
       {
         whiteScore += pieceValue[piece];
-        whiteScore += board.whiteValue[piece][i][j];
+        whiteScore += this->board.whiteValue[piece][i][j];
       }
 
       piece = this->board.board[1][i][j];
       if (piece != 0)
       {
         blackScore += pieceValue[piece];
-        blackScore += board.blackValue[piece][i][j];
+        blackScore += this->board.blackValue[piece][i][j];
       }
     }
   }

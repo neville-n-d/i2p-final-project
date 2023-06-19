@@ -76,7 +76,7 @@ Move playerTurn(int player, State *state, int depth)
         for (auto action : actions)
         {
             State *nextState = state->next_state(action);
-            double temp = minimax(nextState, depth, 0, player);
+            double temp = minimax(nextState, depth - 1, 0, player);
             // std::cout << temp << std::endl;
             if (temp > now)
             {
@@ -106,7 +106,7 @@ Move playerTurn(int player, State *state, int depth)
         for (auto action : actions)
         {
             State *nextState = state->next_state(action);
-            double temp = minimax(nextState, depth, 1, player);
+            double temp = minimax(nextState, depth - 1, 1, player);
             // std::cout << temp << std::endl;
             if (temp < now)
             {
