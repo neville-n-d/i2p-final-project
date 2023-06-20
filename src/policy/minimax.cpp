@@ -89,15 +89,15 @@ Move playerTurn(int player, State *state, int depth)
                 same++;
             }
         }
-        if (same >= actions.size())
-        {
-            int k = depth;
-            for (int i = 0; i < depth; i++)
-            {
-                k = rand() / k;
-            }
-            retMove = actions[(rand() + depth) % actions.size()];
-        }
+        // if (same >= actions.size())
+        // {
+        //     int k = depth;
+        //     for (int i = 0; i < depth; i++)
+        //     {
+        //         k = rand() / k;
+        //     }
+        //     retMove = actions[(rand() + depth) % actions.size()];
+        // }
         return retMove;
     }
     else
@@ -119,15 +119,15 @@ Move playerTurn(int player, State *state, int depth)
                 same++;
             }
         }
-        if (same >= actions.size())
-        {
-            int k = depth;
-            for (int i = 0; i < depth; i++)
-            {
-                k = rand() / k;
-            }
-            retMove = actions[(rand() + depth) % actions.size()];
-        }
+        // if (same >= actions.size())
+        // {
+        //     int k = depth;
+        //     for (int i = 0; i < depth; i++)
+        //     {
+        //         k = rand() / k;
+        //     }
+        //     retMove = actions[(rand() + depth) % actions.size()];
+        // }
         return retMove;
     }
 }
