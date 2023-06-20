@@ -12,7 +12,7 @@
  */
 double State::evaluate()
 {
-  double pieceValue[] = {0, 2, 6, 7, 8, 20, 130}; // Piece values: {None, Pawn, Rook, Knight, Bishop, Queen}
+  double pieceValue[] = {0, 2, 10, 7, 8, 20, 130}; // Piece values: {None, Pawn, Rook, Knight, Bishop, Queen, King}
 
   double whiteScore = 0;
   double blackScore = 0;
